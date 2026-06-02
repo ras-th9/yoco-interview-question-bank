@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yoco · Interview Question Bank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F3EEDF; --paper:#FBF8EF; --ink:#19271F; --soft-ink:#42584A;
+    --green:#143C2B; --green-2:#1E5A3F; --moss:#5C7A65;
+    --amber:#BE7E22; --amber-soft:#F0E2C4;
+    --line:rgba(20,60,43,0.14); --line-strong:rgba(20,60,43,0.28);
+    --shadow:0 1px 2px rgba(20,60,43,0.06),0 8px 24px rgba(20,60,43,0.06);
+    --display:'Fraunces',Georgia,'Times New Roman',serif;
+    --body:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 12% -10%,rgba(30,90,63,0.10),transparent 42%),radial-gradient(circle at 92% 0%,rgba(190,126,34,0.08),transparent 38%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px 80px}
+
+  /* Header */
+  header{padding:48px 0 22px}
+  .kicker{font-family:var(--body);font-weight:600;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+  h1{font-family:var(--display);font-weight:600;font-size:clamp(34px,6vw,58px);line-height:1.02;letter-spacing:-.02em;color:var(--green);}
+  h1 em{font-style:italic;color:var(--amber)}
+  .lede{max-width:60ch;margin-top:16px;font-size:17px;color:var(--soft-ink)}
+
+  /* How to use */
+  .howto{margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  .howto summary{cursor:pointer;list-style:none;padding:16px 20px;display:flex;align-items:center;gap:10px;font-weight:600;color:var(--green);font-size:15px}
+  .howto summary::-webkit-details-marker{display:none}
+  .howto .chev{transition:transform .25s ease;font-size:13px;color:var(--moss)}
+  .howto[open] .chev{transform:rotate(90deg)}
+  .howto .body{padding:2px 20px 20px;border-top:1px solid var(--line);color:var(--soft-ink);font-size:15px}
+  .howto .body p{margin:14px 0}
+  .howto .body strong{color:var(--ink)}
+  .howto ol{margin:12px 0 4px 2px;padding-left:20px}
+  .howto ol li{margin:8px 0;padding-left:4px}
+  .pill-inline{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;vertical-align:baseline}
+  .pill-anchor{background:var(--amber-soft);color:#8a5a13;border:1px solid rgba(190,126,34,.4)}
+  .pill-opt{background:rgba(92,122,101,.14);color:var(--green-2);border:1px solid var(--line-strong)}
+
+  /* Controls */
+  .controls{position:sticky;top:0;z-index:20;margin-top:26px;padding:16px;background:rgba(243,238,223,0.86);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+  .filters{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--moss);padding-left:2px}
+  select,.search input{
+    width:100%;font-family:var(--body);font-size:14px;color:var(--ink);
+    background:var(--paper);border:1px solid var(--line-strong);border-radius:10px;
+    padding:9px 11px;appearance:none;cursor:pointer;transition:border-color .15s,box-shadow .15s;
+  }
+  select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%235C7A65' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:30px}
+  select:focus,.search input:focus{outline:none;border-color:var(--green-2);box-shadow:0 0 0 3px rgba(30,90,63,.14)}
+  .row2{display:flex;gap:10px;margin-top:10px;align-items:center}
+  .search{flex:1;position:relative}
+  .search input{cursor:text;padding-left:34px}
+  .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.5}
+  .btn{font-family:var(--body);font-size:13px;font-weight:600;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--line-strong);background:var(--paper);color:var(--green);transition:background .15s,color .15s,border-color .15s;white-space:nowrap}
+  .btn:hover{border-color:var(--green-2)}
+  .btn-primary{background:var(--green);color:#F6F2E6;border-color:var(--green)}
+  .btn-primary:hover{background:var(--green-2)}
+  .btn-ghost{background:transparent;border-color:transparent;color:var(--moss)}
+  .btn-ghost:hover{color:var(--green);background:rgba(92,122,101,.1)}
+
+  /* Meta line */
+  .meta-line{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 2px 14px;flex-wrap:wrap}
+  .count{font-size:14px;color:var(--soft-ink)}
+  .count b{color:var(--green);font-weight:700}
+
+  /* Cards */
+  .stage-group{margin-bottom:30px}
+  .stage-head{display:flex;align-items:baseline;gap:12px;margin:6px 2px 14px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  .stage-head h2{font-family:var(--display);font-weight:600;font-size:22px;color:var(--green);letter-spacing:-.01em}
+  .stage-head .n{font-size:13px;color:var(--moss);font-weight:600}
+  .grid{display:grid;gap:14px}
+  .card{position:relative;background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:14px;padding:18px 18px 16px;box-shadow:var(--shadow);transition:transform .12s ease,box-shadow .12s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(20,60,43,.07),0 14px 30px rgba(20,60,43,.10)}
+  .card.anchor{border-left-color:var(--amber)}
+  .card.opt{border-left-color:var(--moss)}
+  .q{font-size:16.5px;line-height:1.45;color:var(--ink);padding-right:44px;font-weight:500}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+  .tag{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;letter-spacing:.01em}
+  .tag-type-anchor{background:var(--amber-soft);color:#8a5a13}
+  .tag-type-opt{background:rgba(92,122,101,.15);color:var(--green-2)}
+  .tag-probe{background:rgba(20,60,43,.07);color:var(--green)}
+  .tag-fn{background:transparent;color:var(--moss);border:1px solid var(--line-strong)}
+  .tag-sen{background:transparent;color:var(--moss);border:1px dashed var(--line-strong)}
+  .copy{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:9px;border:1px solid var(--line-strong);background:var(--paper);color:var(--moss);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+  .copy:hover{color:var(--green);border-color:var(--green-2);background:#fff}
+  .copy.done{color:#fff;background:var(--green-2);border-color:var(--green-2)}
+
+  .empty{text-align:center;padding:60px 20px;color:var(--moss)}
+  .empty h3{font-family:var(--display);font-size:22px;color:var(--green);margin-bottom:8px;font-weight:600}
+
+  footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--moss);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  footer a{color:var(--green-2);text-decoration:none;border-bottom:1px solid var(--line-strong)}
+
+  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green);color:#F6F2E6;font-size:14px;font-weight:600;padding:11px 20px;border-radius:999px;box-shadow:0 10px 30px rgba(20,60,43,.3);opacity:0;pointer-events:none;transition:all .25s ease;z-index:50}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:780px){
+    .filters{grid-template-columns:repeat(2,1fr)}
+    .row2{flex-wrap:wrap}
+    .search{flex-basis:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">Yoco · Talent</div>
+    <h1>Interview <em>question bank</em></h1>
+    <p class="lede">A browsable companion to the HiBob scorecards. Pick a stage — and optionally a role or competency — to get suggested questions. Anchors are the must-ask backbone; everything else is optional colour to mix in.</p>
+
+    <details class="howto">
+      <summary><span class="chev">▶</span> How to use this</summary>
+      <div class="body">
+        <p>Each interview stage in HiBob has a <strong>scorecard</strong> that defines what you're rating. This bank holds the <strong>questions</strong> that draw those signals out — kept separate so wording can evolve without touching the scorecards.</p>
+        <ol>
+          <li><strong>Choose the interview stage</strong> you're running (e.g. Hiring manager).</li>
+          <li>Optionally narrow by <strong>role/function</strong> (e.g. Engineering) and <strong>competency</strong> (e.g. Problem-solving) for the candidate in front of you.</li>
+          <li>Cover the <span class="pill-inline pill-anchor">★ Anchor</span> questions first — they map directly to the scorecard. Then add one or two <span class="pill-inline pill-opt">Optional</span> questions to go deeper where it matters.</li>
+          <li>Hit the copy icon on any card to drop the question into your notes.</li>
+        </ol>
+        <p style="margin-top:16px"><strong>Reminder:</strong> you score the candidate on the HiBob scorecard, not here. This is just where the questions live.</p>
+      </div>
+    </details>
+
+    <div class="controls">
+      <div class="filters">
+        <div class="field"><label for="fStage">Interview stage</label><select id="fStage"></select></div>
+        <div class="field"><label for="fFunc">Role / function</label><select id="fFunc"></select></div>
+        <div class="field"><label for="fProbe">Competency</label><select id="fProbe"></select></div>
+        <div class="field"><label for="fSen">Seniority</label><select id="fSen"></select></div>
+        <div class="field"><label for="fType">Question type</label><select id="fType"></select></div>
+      </div>
+      <div class="row2">
+        <div class="search">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#5C7A65" stroke-width="1.6"/><path d="M11 11l3 3" stroke="#5C7A65" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="search" type="text" placeholder="Search question text…" autocomplete="off">
+        </div>
+        <button class="btn" id="copyAll">Copy shown</button>
+        <button class="btn btn-ghost" id="reset">Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="meta-line">
+    <div class="count" id="count"></div>
+  </div>
+
+  <main id="results"></main>
+
+  <footer>
+    <span>Snapshot of the <strong>Interview question bank (POC)</strong> — point-in-time copy. Re-export when the bank changes.</span>
+    <a href="https://www.notion.so/8c6de1413b2840ef9bddc7ec8566681f" target="_blank" rel="noopener">Open the live bank in Notion →</a>
+  </footer>
+</div>
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+const Q=[
+ {q:"Tell me about yourself and your current role.",s:"Pre-screen",p:["Motivation"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"What do you know about Yoco, and what made you apply?",s:"Pre-screen",p:["Motivation"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"What do you understand this role to involve day to day, and how does your experience map to it?",s:"Pre-screen",p:["Motivation"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"What's prompting a move now, and what are you looking for in your next role?",s:"Pre-screen",p:["Motivation"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"Walk me through your most relevant experience for this role — what were you accountable for, and what was the outcome?",s:"Hiring manager",p:["Dedicated to craft"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"Why this role specifically — beyond why Yoco?",s:"Hiring manager",p:["Motivation"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"What are you actively working to get better at, and how do you stay sharp in your field?",s:"Hiring manager",p:["Dedicated to craft"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"Tell me about a time you delivered under real pressure or a tight deadline. How did you manage it?",s:"Hiring manager",p:["Relentlessly effective"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"Tell me about a time something important went wrong. What would you do differently?",s:"Hiring manager",p:["Dedicated to craft"],f:["All"],sen:"All",t:"Optional"},
+ {q:"Tell me about a time you shipped something fast and unfinished, then iterated. Why, and what was the outcome?",s:"Hiring manager",p:["Keep it simple","Relentlessly effective"],f:["All"],sen:"All",t:"Optional"},
+ {q:"Walk me through how you approached your most complex recent project — how did you frame the problem?",s:"Craft",p:["Problem-solving"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"Walk us through your solution and the main trade-offs you made.",s:"Craft",p:["Solution communication"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"How did you decide your approach would work, and what would you do differently next time?",s:"Craft",p:["Dedicated to craft","Problem-solving"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"How did you decide what to leave out of your solution?",s:"Craft",p:["Solution quality","Keep it simple"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"How would you design this for 10x the load?",s:"Craft",p:["Problem-solving","Master your craft"],f:["Engineering"],sen:"Senior IC",t:"Optional"},
+ {q:"How would you scale this to handle load — load balancing, caching, DB choice, a user with 5M followers?",s:"Craft",p:["Problem-solving"],f:["Engineering"],sen:"Senior IC",t:"Optional"},
+ {q:"If you're on support and get a 2am call that merchants can't take payments, how would you debug it?",s:"Craft",p:["Problem-solving"],f:["Engineering"],sen:"Senior IC",t:"Optional"},
+ {q:"A junior asks you to explain concurrency vs parallelism and how to implement each in Python.",s:"Craft",p:["Master your craft"],f:["Engineering"],sen:"Mid",t:"Optional"},
+ {q:"What's your approach to testing software?",s:"Craft",p:["Dedicated to craft"],f:["Engineering"],sen:"All",t:"Optional"},
+ {q:"You find a high-severity pen-test finding; the team says it only happens with debug access. How do you convince them it still needs fixing?",s:"Craft",p:["Conflict handling"],f:["Engineering","Compliance"],sen:"Senior IC",t:"Optional"},
+ {q:"Walk me through your general approach to a new design project — how do you decide where to start?",s:"Craft",p:["Problem-solving"],f:["Design"],sen:"All",t:"Optional"},
+ {q:"How do you ensure the best possible design actually ends up in the product?",s:"Craft",p:["Solution quality"],f:["Design"],sen:"Senior IC",t:"Optional"},
+ {q:"Where do your product requirements come from?",s:"Craft",p:["Problem-solving"],f:["Product"],sen:"Mid",t:"Optional"},
+ {q:"Talk me through a product you led from scratch — how did you get it to launch?",s:"Craft",p:["Solution quality"],f:["Product"],sen:"Senior IC",t:"Optional"},
+ {q:"Tell me about a novel idea or decision that had a big impact. What was novel about it?",s:"Craft",p:["Make space to explore"],f:["Product"],sen:"Senior IC",t:"Optional"},
+ {q:"Tell me about something you did to address a problem nobody expected you to work on.",s:"Craft",p:["Mission-driven challenger"],f:["Design","Product"],sen:"All",t:"Optional"},
+ {q:"Describe your most complex data project end to end — the hardest challenges and how you handled them.",s:"Craft",p:["Problem-solving"],f:["Data"],sen:"Senior IC",t:"Optional"},
+ {q:"Take me through your decision process for choosing SQL vs NoSQL for a new data store.",s:"Craft",p:["Problem-solving"],f:["Data"],sen:"Senior IC",t:"Optional"},
+ {q:"How do you keep your data pipelines reliable so they don't break?",s:"Craft",p:["Dedicated to craft"],f:["Data"],sen:"Mid",t:"Optional"},
+ {q:"You spot a trend that invalidates a long-held company belief. How do you validate and communicate it?",s:"Craft",p:["Solution communication"],f:["Data"],sen:"Senior IC",t:"Optional"},
+ {q:"Describe how you build and manage a healthy sales pipeline, and what you use to do it.",s:"Craft",p:["Relentlessly effective"],f:["Sales"],sen:"Mid",t:"Optional"},
+ {q:"Walk me through a complex sale you managed, from lead generation to close.",s:"Craft",p:["Solution communication"],f:["Sales"],sen:"All",t:"Optional"},
+ {q:"A merchant says they can get a cheaper terminal elsewhere. How do you reframe the conversation around value?",s:"Craft",p:["Problem-solving"],f:["Sales"],sen:"Mid",t:"Optional"},
+ {q:"Tell me about a recent campaign you ran end to end — the challenges and how you measured success.",s:"Craft",p:["Solution quality"],f:["Marketing"],sen:"Mid",t:"Optional"},
+ {q:"How do you use data to shape and adapt your marketing strategy?",s:"Craft",p:["Problem-solving"],f:["Marketing"],sen:"Senior IC",t:"Optional"},
+ {q:"Walk me through building a financial model from scratch to support a strategic decision.",s:"Craft",p:["Problem-solving"],f:["Finance"],sen:"Senior IC",t:"Optional"},
+ {q:"How do you use data to inform people-operations decisions?",s:"Craft",p:["Problem-solving"],f:["People"],sen:"Senior IC",t:"Optional"},
+ {q:"Explain the difference between KYC, CDD and EDD, and why each matters.",s:"Craft",p:["Master your craft"],f:["Compliance"],sen:"Mid",t:"Optional"},
+ {q:"How would you assess the effectiveness of a compliance programme — which KPIs?",s:"Craft",p:["Solution quality"],f:["Compliance"],sen:"Senior IC",t:"Optional"},
+ {q:"A merchant calls in upset that they haven't received a payout. Give three reasons why, and how you'd handle the call.",s:"Craft",p:["Problem-solving"],f:["CX"],sen:"All",t:"Optional"},
+ {q:"Describe a high-stakes implementation you led end to end. How did you plan it and keep the customer experience high?",s:"Craft",p:["Solution quality"],f:["CX","Operations"],sen:"Senior IC",t:"Optional"},
+ {q:"When did you last work cross-functionally? What did you do to make it work?",s:"XF + Culture",p:["Collaboration"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"How do you stay connected with people across distance or function? Give an example.",s:"XF + Culture",p:["Stay connected"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"How do you make the teams you're part of better? Give an example.",s:"XF + Culture",p:["A multiplier"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"How do you stay at the top of your craft? What's the last thing you taught yourself?",s:"XF + Culture",p:["Master your craft"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"Where do you push back when you disagree with someone more senior?",s:"XF + Culture",p:["Conflict handling","Stay connected"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"Tell me about a time you made something simpler than it was when you got it.",s:"XF + Culture",p:["Keep it simple"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"Tell me about a time you changed direction halfway through something important.",s:"XF + Culture",p:["Adaptability","Make space to explore"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"What's the most fun thing you've shipped or done at work, and why?",s:"XF + Culture",p:["Real with quirk"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"Tell me about a time you had to adapt to a rapid change at work. How did you manage the transition?",s:"XF + Culture",p:["Adaptability"],f:["All"],sen:"All",t:"Optional"},
+ {q:"How do you keep stakeholders aligned when priorities shift mid-quarter?",s:"XF + Culture",p:["Adaptability"],f:["All"],sen:"Senior IC",t:"Optional"},
+ {q:"Tell me about a time you and a teammate disagreed on how to do something. Did you resolve it, and how?",s:"XF + Culture",p:["Conflict handling"],f:["All"],sen:"Mid",t:"Optional"},
+ {q:"How do you give and receive feedback at work? Give an example.",s:"XF + Culture",p:["Stay connected"],f:["All"],sen:"All",t:"Optional"},
+ {q:"Tell me about a piece of critical feedback you received and what you did with it.",s:"XF + Culture",p:["Stay connected"],f:["All"],sen:"All",t:"Optional"},
+ {q:"Tell me about a time you had to get buy-in from various stakeholders. How did you get the collaboration?",s:"XF + Culture",p:["Collaboration"],f:["All"],sen:"Senior IC",t:"Optional"},
+ {q:"How do you get engineers and designers onto the same page?",s:"XF + Culture",p:["Collaboration"],f:["Engineering","Design"],sen:"Senior IC",t:"Optional"},
+ {q:"Describe coaching a teammate to a better outcome than you'd have reached alone.",s:"XF + Culture",p:["A multiplier"],f:["All"],sen:"Lead-Manager",t:"Optional"},
+ {q:"Tell me about a time you made something simpler for customers. What drove it, and what was the impact?",s:"XF + Culture",p:["Keep it simple"],f:["All"],sen:"All",t:"Optional"},
+ {q:"Tell me about a time you took on something significant outside your responsibility. Why, and what happened?",s:"XF + Culture",p:["Make space to explore"],f:["All"],sen:"All",t:"Optional"},
+ {q:"What was the last book you read, and what made you choose it?",s:"XF + Culture",p:["Make space to explore"],f:["All"],sen:"All",t:"Optional"},
+ {q:"What's something people are often surprised to learn about you?",s:"XF + Culture",p:["Real with quirk"],f:["All"],sen:"All",t:"Optional"},
+ {q:"Where do you want to be in 3-5 years, and how does this role fit?",s:"Final",p:["Long-term potential"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"How do you balance long-term vision with short- and medium-term delivery?",s:"Final",p:["Long-term potential"],f:["All"],sen:"Senior IC",t:"Anchor"},
+ {q:"Why do you believe in Yoco's mission, and where would you challenge how we do things?",s:"Final",p:["Mission-driven challenger"],f:["All"],sen:"All",t:"Anchor"},
+ {q:"How do you give difficult feedback to a leader on your team?",s:"Final",p:["Leadership"],f:["All"],sen:"Lead-Manager",t:"Anchor"},
+ {q:"Tell me about coaching a leader or manager to step up. What did you do and what changed?",s:"Final",p:["Leadership"],f:["All"],sen:"Lead-Manager",t:"Anchor"},
+ {q:"Tell me about a time you challenged an established norm or process. How did you approach it, and what was the result?",s:"Final",p:["Mission-driven challenger"],f:["All"],sen:"All",t:"Optional"},
+ {q:"Tell me about a time you were unsatisfied with the status quo. What did you do, and what was the impact?",s:"Final",p:["Mission-driven challenger"],f:["All"],sen:"All",t:"Optional"},
+ {q:"How do you influence decisions in rooms where you're not the most senior person?",s:"Final",p:["Leadership"],f:["All"],sen:"Senior IC",t:"Optional"},
+ {q:"Tell me about leading a team through a significant change or transition.",s:"Final",p:["Leadership"],f:["All"],sen:"Lead-Manager",t:"Optional"},
+ {q:"How do you coach an underperformer back to the standard you need?",s:"Final",p:["Leadership"],f:["All"],sen:"Lead-Manager",t:"Optional"},
+ {q:"How do you balance empathy with high standards as a leader?",s:"Final",p:["Leadership"],f:["All"],sen:"Lead-Manager",t:"Optional"},
+ {q:"How do you build a team that pushes back on you?",s:"Final",p:["Leadership"],f:["All"],sen:"Lead-Manager",t:"Optional"},
+ {q:"Describe a time you identified a skills gap in your team. How did you address it?",s:"Final",p:["Leadership"],f:["All"],sen:"Lead-Manager",t:"Optional"},
+ {q:"How do you keep a team motivated in a high-volume, high-pressure environment?",s:"Final",p:["Leadership"],f:["CX","Sales"],sen:"Lead-Manager",t:"Optional"}
+];
+
+const STAGE_ORDER=["Pre-screen","Hiring manager","Craft","XF + Culture","Final"];
+const SEN_ORDER=["All","Junior","Mid","Senior IC","Lead-Manager"];
+
+const el=id=>document.getElementById(id);
+const fStage=el("fStage"),fFunc=el("fFunc"),fProbe=el("fProbe"),fSen=el("fSen"),fType=el("fType"),search=el("search");
+
+function uniq(arr){return [...new Set(arr)];}
+function fillSelect(sel,opts,allLabel){
+  sel.innerHTML="";
+  const o0=document.createElement("option");o0.value="";o0.textContent=allLabel;sel.appendChild(o0);
+  opts.forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;sel.appendChild(o);});
+}
+// stages in canonical order
+fillSelect(fStage,STAGE_ORDER.filter(s=>Q.some(q=>q.s===s)),"All stages");
+// functions (specific only; "All"-tagged questions always surface)
+const funcs=uniq(Q.flatMap(q=>q.f)).filter(f=>f!=="All").sort();
+fillSelect(fFunc,funcs,"All functions");
+// competencies
+const probes=uniq(Q.flatMap(q=>q.p)).sort();
+fillSelect(fProbe,probes,"All competencies");
+// seniority (specific only; "All"-level always surfaces)
+const sens=SEN_ORDER.filter(s=>s!=="All"&&Q.some(q=>q.sen===s));
+fillSelect(fSen,sens,"All levels");
+// type
+fillSelect(fType,["Anchor","Optional"],"Anchors + optional");
+
+function escapeHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function filtered(){
+  const st=fStage.value,fn=fFunc.value,pr=fProbe.value,sn=fSen.value,ty=fType.value;
+  const term=search.value.trim().toLowerCase();
+  return Q.filter(q=>{
+    if(st && q.s!==st)return false;
+    if(fn && !(q.f.includes(fn)||q.f.includes("All")))return false;
+    if(pr && !q.p.includes(pr))return false;
+    if(sn && !(q.sen===sn||q.sen==="All"))return false;
+    if(ty && q.t!==ty)return false;
+    if(term && !q.q.toLowerCase().includes(term))return false;
+    return true;
+  });
+}
+
+function render(){
+  const list=filtered();
+  const anchors=list.filter(q=>q.t==="Anchor").length;
+  el("count").innerHTML=`Showing <b>${list.length}</b> of ${Q.length} questions · <b>${anchors}</b> anchor${anchors===1?"":"s"}`;
+  const res=el("results");
+  if(list.length===0){
+    res.innerHTML=`<div class="empty"><h3>Nothing matches those filters</h3><p>Try widening the role, competency or seniority — or reset.</p></div>`;
+    return;
+  }
+  // group by stage in canonical order
+  const groups={};
+  list.forEach(q=>{(groups[q.s]=groups[q.s]||[]).push(q);});
+  let html="";
+  STAGE_ORDER.forEach(stage=>{
+    const items=groups[stage];
+    if(!items)return;
+    items.sort((a,b)=>(a.t===b.t?a.q.localeCompare(b.q):a.t==="Anchor"?-1:1));
+    html+=`<section class="stage-group"><div class="stage-head"><h2>${stage}</h2><span class="n">${items.length} question${items.length===1?"":"s"}</span></div><div class="grid">`;
+    items.forEach(q=>{
+      const isA=q.t==="Anchor";
+      const tags=[
+        `<span class="tag ${isA?"tag-type-anchor":"tag-type-opt"}">${isA?"★ Anchor":"Optional"}</span>`,
+        ...q.p.map(p=>`<span class="tag tag-probe">${escapeHtml(p)}</span>`),
+        ...q.f.filter(f=>f!=="All").map(f=>`<span class="tag tag-fn">${escapeHtml(f)}</span>`),
+        ...(q.sen!=="All"?[`<span class="tag tag-sen">${escapeHtml(q.sen)}</span>`]:[])
+      ].join("");
+      html+=`<article class="card ${isA?"anchor":"opt"}">
+        <button class="copy" title="Copy question" data-q="${escapeHtml(q.q).replace(/"/g,'&quot;')}">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2H4a1.5 1.5 0 0 0-1.5 1.5V11" stroke="currentColor" stroke-width="1.4"/></svg>
+        </button>
+        <div class="q">${escapeHtml(q.q)}</div>
+        <div class="tags">${tags}</div>
+      </article>`;
+    });
+    html+=`</div></section>`;
+  });
+  res.innerHTML=html;
+}
+
+let toastTimer;
+function toast(msg){
+  const t=el("toast");t.textContent=msg;t.classList.add("show");
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),1600);
+}
+async function copyText(text){
+  try{await navigator.clipboard.writeText(text);return true;}
+  catch(e){
+    const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
+    document.body.appendChild(ta);ta.select();
+    let ok=false;try{ok=document.execCommand("copy");}catch(_){}
+    document.body.removeChild(ta);return ok;
+  }
+}
+
+el("results").addEventListener("click",async e=>{
+  const btn=e.target.closest(".copy");if(!btn)return;
+  const ok=await copyText(btn.dataset.q.replace(/&quot;/g,'"').replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">"));
+  if(ok){btn.classList.add("done");setTimeout(()=>btn.classList.remove("done"),900);toast("Question copied");}
+});
+
+el("copyAll").addEventListener("click",async()=>{
+  const list=filtered();if(!list.length)return;
+  const text=list.map(q=>"• "+q.q).join("\n");
+  const ok=await copyText(text);
+  if(ok)toast(`Copied ${list.length} question${list.length===1?"":"s"}`);
+});
+
+el("reset").addEventListener("click",()=>{
+  [fStage,fFunc,fProbe,fSen,fType].forEach(s=>s.value="");search.value="";render();
+});
+
+[fStage,fFunc,fProbe,fSen,fType].forEach(s=>s.addEventListener("change",render));
+search.addEventListener("input",render);
+
+render();
+</script>
+</body>
+</html>
